@@ -1,31 +1,10 @@
 [
   {
-    "name": "80 Level",
-    "url": "https://80.lv",
-    "domain": "80.lv",
-    "category": "Animation",
-    "description": "News and breakdowns covering game art, CG, and real-time 3D production."
-  },
-  {
     "name": "Animation World Network",
     "url": "https://awn.com",
     "domain": "awn.com",
     "category": "Animation",
     "description": "Industry news and features covering the global animation business."
-  },
-  {
-    "name": "Beeple",
-    "url": "https://beeple-crap.com",
-    "domain": "beeple-crap.com",
-    "category": "Animation",
-    "description": "The personal site/archive of digital artist Beeple's long-running daily 3D render project."
-  },
-  {
-    "name": "Boards Magazine",
-    "url": "https://boardsmag.com",
-    "domain": "boardsmag.com",
-    "category": "Animation",
-    "description": "Industry coverage of commercial production, animation, and VFX work."
   },
   {
     "name": "CGSociety",
@@ -38,7 +17,7 @@
     "name": "Cuberto",
     "url": "https://cuberto.com",
     "domain": "cuberto.com",
-    "category": "Animation",
+    "category": "Web Design",
     "description": "A design studio site known for polished motion and UI-animation case studies."
   },
   {
@@ -47,13 +26,6 @@
     "domain": "eyecannndy.com",
     "category": "Animation",
     "description": "A visual-technique library for filmmakers cataloging shot styles, animation techniques, and references."
-  },
-  {
-    "name": "GIPHY Arts",
-    "url": "https://giphy.com/arts",
-    "domain": "giphy.com/arts",
-    "category": "Animation",
-    "description": "A showcase of high-concept loop animations and short-form frame-by-frame art."
   },
   {
     "name": "Greyscalegorilla",
@@ -89,13 +61,6 @@
     "domain": "motionographer.com",
     "category": "Animation",
     "description": "The premier source for motion-design news, studio features, and cutting-edge reels."
-  },
-  {
-    "name": "PremiumBeat Blog",
-    "url": "https://blog.premiumbeat.com",
-    "domain": "blog.premiumbeat.com",
-    "category": "Animation",
-    "description": "Shutterstock's motion-design and filmmaking blog, with frequent inspiration roundups."
   },
   {
     "name": "Render Weekly",
