@@ -1,240 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>After Effects Scripts — Justin Patrick Dias</title>
-<meta name="description" content="Four utilities for organizing After Effects projects in bulk — frame rate changes, comp scaling, project cleanup, and renaming.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg: #18181B;        /* dark grey — page background */
-    --card: #2A1A42;      /* purple — card background */
-    --heading: #ECE0FF;   /* lighter lavender — bigger headers */
-    --text: #C2AFE0;      /* middle lavender — regular text */
-    --accent: #B388EB;    /* vibrant — links & buttons */
-    --gutter: 1.2rem;     /* horizontal page margin (header / main / footer) */
-    --space: 1.5rem;        /* vertical rhythm for main/footer, and card horizontal padding */
-    --card-pad-v: 1.5rem; /* vertical padding inside each card (top/bottom to title) */
-  }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>After Effects Scripts — Justin Patrick Dias</title>
+	<meta name="description" content="Four utilities for organizing After Effects projects in bulk — frame rate changes, comp scaling, project cleanup, and renaming.">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+	<style>
+		/* Global theme variables for consistent color palette and spacing */
+		:root{
+			--bg: #18181B;        /* dark grey — page background */
+			--card: #23142d;      /* purple — card background */
+			--purple: #d2b7ff;   /* lighter lavender — bigger headers */
+			--gutter: 1.2rem;     /* horizontal page margin (header / main / footer) */
+			--space: 1.5rem;        /* vertical rhythm for main/footer, and card horizontal padding */
+			--card-pad-v: 1.5rem; /* vertical padding inside each card (top/bottom to title) */
+		}
 
-  *{ box-sizing: border-box; }
+		*{ box-sizing: border-box; }
 
-  html, body{
-    margin: 0;
-    padding: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Space Mono', 'Courier New', Courier, monospace;
-    line-height: 1.6;
-  }
+		html, body{
+			margin: 0;
+			padding: 0;
+			background: var(--bg);
+			color: var(--purple);
+			font-family: 'IBM Plex Mono', monospace;
+			line-height: 1.6;
+			font-weight: 400; /* Flattening font weight profile across site */
+		}
 
-  a{ color: var(--accent); text-decoration: none; }
-  a:hover{ opacity: 0.8; text-decoration: underline; }
+		a{ color: var(--purple); text-decoration: none; }
+		a:hover{ opacity: 0.8; text-decoration: underline; }
 
-  :focus-visible{
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
-  }
+		/* Focus state for keyboard accessibility navigation */
+		:focus-visible{
+			outline: 2px solid var(--purple);
+			outline-offset: 3px;
+		}
 
-  h1, h2, h3{ color: var(--heading); margin: 0; }
-  h2{ font-size: 1.3rem; }
+		h1, h2, h3{ color: var(--purple); margin: 0; font-weight: 400; }
+		h2{ font-size: 1.3rem; }
 
-  /* ---------- Sticky page header ---------- */
-  header{
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: var(--bg);
-    box-shadow: 0 4px 18px rgba(0,0,0,0.35);
-    padding: calc(var(--space) / 2) var(--gutter);
-  }
+		strong {
+			font-weight: 400; /* Flattening native browser bolding */
+		}
 
-  header .card-head{
-    max-width: 760px;
-    margin: 0 auto;
-    /* matches main's gutter + section's own padding, so the title
-       lines up with the text inside the cards below */
-    padding-left: calc(var(--gutter) + var(--space));
-    padding-right: calc(var(--gutter) + var(--space));
-  }
+		/* ---------- Sticky page header ---------- */
+		header{
+			position: sticky;
+			top: 0;
+			z-index: 10;
+			background: var(--bg);
+			box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+			padding: calc(var(--space) / 2) var(--gutter);
+		}
 
-  header h1{
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--accent);
-    text-transform: uppercase;
-  }
+		header .card-head{
+			max-width: 760px;
+			margin: 0 auto;
+			/* padding-left/right ensures the header content lines up with grid cards below */
+			padding-left: calc(var(--gutter) + var(--space));
+			padding-right: calc(var(--gutter) + var(--space));
+		}
 
-  /* ---------- Title row shared by header + cards ---------- */
-  .card-head{
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 0.8rem;
-  }
+		header h1{
+			font-size: 1.2rem;
+			font-weight: 400;
+			color: var(--purple);
+			text-transform: uppercase;
+		}
 
-  .card-head h4{
-    margin-left: auto;
-    white-space: nowrap;
-  }
+		/* ---------- Title row shared by header + cards ---------- */
+		.card-head{
+			display: flex;
+			align-items: baseline;
+			flex-wrap: wrap;
+			gap: 1rem;
+			margin-bottom: 0.8rem;
+		}
 
-  h4{
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-size: 0.75rem;
-    font-weight: 700;
-    margin: 0;
-  }
+		.card-head h3{
+			margin-left: auto;
+			white-space: nowrap;
+		}
 
-  /* ---------- Layout ---------- */
-  main{
-    max-width: 760px;
-    margin: 0 auto;
-    padding: var(--space) var(--gutter);
-  }
+		/* Metadata badges / utility tags within cards */
+		h3{
+			text-transform: uppercase;
+			letter-spacing: 0.12em;
+			font-size: 0.75rem;
+			font-weight: 400;
+			margin: 0;
+		}
 
-  section{
-    background: var(--card);
-    padding: var(--card-pad-v) var(--space);
-    margin-bottom: var(--space);
-    box-shadow: 0 4px 18px rgba(0,0,0,0.35);
-  }
-  section:last-of-type{ margin-bottom: 0; }
+		/* ---------- Layout ---------- */
+		main{
+			max-width: 760px;
+			margin: 0 auto;
+			padding: var(--space) var(--gutter);
+		}
 
-  /* ---------- Script entries ---------- */
-  .script p{
-    margin: 0 0 1.2rem 0;
-    font-size: 0.95rem;
-  }
+		section{
+			background: var(--card);
+			padding: var(--card-pad-v) var(--space);
+			margin-bottom: var(--space);
+            border-radius: 6px;
+			box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+		}
+		section:last-of-type{ margin-bottom: 0; }
 
-  .cta-row{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1.2rem;
-  }
+		/* ---------- Script entries ---------- */
+		.script p{
+			margin: 0 0 1.2rem 0;
+			font-size: 0.95rem;
+		}
 
-  .btn{
-    display: inline-block;
-    background: var(--accent);
-    color: var(--bg);
-    font-family: inherit;
-    font-weight: 700;
-    font-size: 0.9rem;
-    padding: 0.8rem 1.4rem;
-    border-radius: 6px;
-    border: 1px solid var(--accent);
-    cursor: pointer;
-  }
+		.cta-row{
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 1.2rem;
+		}
 
-  .btn:hover{
-    opacity: 0.85;
-    text-decoration: none;
-  }
+		.btn{
+			display: inline-block;
+			background: var(--purple);
+			color: var(--bg);
+			font-family: inherit;
+			font-weight: 400;
+			font-size: 0.9rem;
+			padding: 0.4rem 0.8rem;
+			border-radius: 4px;
+			border: 1px solid var(--purple);
+			cursor: pointer;
+		}
 
-  /* ---------- Install ---------- */
-  ol.steps{ margin: 0; padding-left: 1.4rem; }
-  ol.steps li{ margin-bottom: 1rem; font-size: 0.9rem; }
+		.btn:hover{
+			opacity: 0.85;
+			text-decoration: none;
+		}
 
-  /* ---------- Footer ---------- */
-  footer{
-    text-align: center;
-    padding: var(--space) var(--gutter);
-    font-size: 0.8rem;
-  }
+		/* ---------- Install ---------- */
+		ol.steps{ margin: 0; padding-left: 1.4rem; }
+		ol.steps li{ margin-bottom: 1rem; font-size: 0.9rem; }
 
-  @media (max-width: 600px){
-    section{ padding: 1.5rem; }
-    header .card-head{ padding-left: 1.5rem; padding-right: 1.5rem; }
-  }
-</style>
+		/* ---------- Footer ---------- */
+		footer{
+			text-align: center;
+			padding: var(--space) var(--gutter);
+			font-size: 0.8rem;
+		}
+
+		/* Mobile adjustments for standard viewports */
+		@media (max-width: 600px){
+			section{ padding: 1.5rem; }
+			header .card-head{ padding-left: 1.5rem; padding-right: 1.5rem; }
+		}
+	</style>
 </head>
 <body>
 
-  <header>
-    <div class="card-head">
-      <h1>Script Library</h1>
-    </div>
-  </header>
+	<header>
+		<div class="card-head">
+			<h1>Justin's After Effects Scripts</h1>
+		</div>
+	</header>
 
-  <main>
+	<main>
 
-    <section class="script">
-      <div class="card-head">
-        <h2>Bulk Frame Rate Changer</h2>
-        <h4>v1.0.3</h4>
-      </div>
-      <p>Change frame rate of all selected comps and footage in the project panel.</p>
-      <div class="cta-row">
-        <!-- TODO: replace with real raw-file download link -->
-        <a class="btn" href="#" download>Download Script (.jsx)</a>
-        <!-- TODO: replace with real repo link -->
-        <a href="#" target="_blank" rel="noopener">View source on GitHub →</a>
-      </div>
-    </section>
+		<section class="script">
+			<div class="card-head">
+				<h2>Bulk Frame Rate Changer</h2>
+				<h3>v1.0.3</h3>
+			</div>
+			<p>Change frame rate of all selected comps and footage in the project panel.</p>
+			<div class="cta-row">
+				<a class="btn" href="#" download>Download Script (.jsx)</a>
+				<a href="#" target="_blank" rel="noopener">View source on GitHub →</a>
+			</div>
+		</section>
 
-    <section class="script">
-      <div class="card-head">
-        <h2>Bulk Comp Scaler</h2>
-        <h4>Version —</h4>
-      </div>
-      <p>After Effects Native Scale Composition Script, but dockable and can apply to all selected comps in project panel.</p>
-      <div class="cta-row">
-        <!-- TODO: replace with real raw-file download link -->
-        <a class="btn" href="#" download>Download Script (.jsx)</a>
-        <!-- TODO: replace with real repo link -->
-        <a href="#" target="_blank" rel="noopener">View source on GitHub →</a>
-      </div>
-    </section>
+		<section class="script">
+			<div class="card-head">
+				<h2>Bulk Comp Scaler</h2>
+				<h3>Version —</h3>
+			</div>
+			<p>After Effects Native Scale Composition Script, but dockable and can apply to all selected comps in project panel.</p>
+			<div class="cta-row">
+				<a class="btn" href="#" download>Download Script (.jsx)</a>
+				<a href="#" target="_blank" rel="noopener">View source on GitHub →</a>
+			</div>
+		</section>
 
-    <section class="script">
-      <div class="card-head">
-        <h2>Aep Cleaner</h2>
-        <h4>v1.0.0</h4>
-      </div>
-      <p>A series of functions to sort project files</p>
-      <div class="cta-row">
-        <!-- TODO: replace with real raw-file download link -->
-        <a class="btn" href="#" download>Download Script (.jsx)</a>
-        <!-- TODO: replace with real repo link -->
-        <a href="#" target="_blank" rel="noopener">View source on GitHub →</a>
-      </div>
-    </section>
+		<section class="script">
+			<div class="card-head">
+				<h2>Aep Cleaner</h2>
+				<h3>v1.0.0</h3>
+			</div>
+			<p>A series of functions to sort project files</p>
+			<div class="cta-row">
+				<a class="btn" href="#" download>Download Script (.jsx)</a>
+				<a href="#" target="_blank" rel="noopener">View source on GitHub →</a>
+			</div>
+		</section>
 
-    <section class="script">
-      <div class="card-head">
-        <h2>Bulk Comp Renamer</h2>
-        <h4>v1.0.3</h4>
-      </div>
-      <p>Rename every selected item in your Project panel in one pass. Find &amp; replace text, add a prefix or suffix, or version up everything at once.</p>
-      <div class="cta-row">
-        <a class="btn" href="https://raw.githubusercontent.com/JustinPatrickDias/Bulk_Renamer/main/Bulk%20Comp%20Renamer%20v1.0.3.jsx" download="Bulk Comp Renamer v1.0.3.jsx">Download Script (.jsx)</a>
-        <a href="https://github.com/JustinPatrickDias/Bulk_Renamer" target="_blank" rel="noopener">View source on GitHub →</a>
-      </div>
-    </section>
+		<section class="script">
+			<div class="card-head">
+				<h2>Bulk Comp Renamer</h2>
+				<h3>v1.0.3</h3>
+			</div>
+			<p>Rename every selected item in your Project panel in one pass. Find &amp; replace text, add a prefix or suffix, or version up everything at once.</p>
+			<div class="cta-row">
+				<a class="btn" href="https://raw.githubusercontent.com/JustinPatrickDias/Bulk_Renamer/main/Bulk%20Comp%20Renamer%20v1.0.3.jsx" download="Bulk Comp Renamer v1.0.3.jsx">Download Script (.jsx)</a>
+				<a href="https://github.com/JustinPatrickDias/Bulk_Renamer" target="_blank" rel="noopener">View source on GitHub →</a>
+			</div>
+		</section>
 
-    <section class="install">
-      <div class="card-head">
-        <h2>Installation</h2>
-        <h4>Get 'em runnin'</h4>
-      </div>
-      <ol class="steps">
-        <li>Download the .jsx file</li>
-        <li>In After Effects, go to <strong>File → Scripts → Install ScriptUI Panel...</strong></li>
-        <li>Select the .jsx file.</li>
-        <li>After Effects will ask to restart — go ahead and restart it.</li>
-        <li>Find it under <strong>Window →</strong> followed by the script's filename.</li>
-      </ol>
-    </section>
+		<section class="install">
+			<div class="card-head">
+				<h2>Installation</h2>
+				<h3>Get 'em runnin'</h3>
+			</div>
+			<ol class="steps">
+				<li>Download the .jsx file</li>
+				<li>In After Effects, go to <strong>File → Scripts → Install ScriptUI Panel...</strong></li>
+				<li>Select the .jsx file.</li>
+				<li>After Effects will ask to restart — go ahead and restart it.</li>
+				<li>Find it under <strong>Window →</strong> followed by the script's filename.</li>
+			</ol>
+		</section>
 
-  </main>
+	</main>
 
-  <footer>
-    Built by Justin Patrick Dias · <a href="https://github.com/JustinPatrickDias" target="_blank" rel="noopener">Browse all repositories on GitHub</a>
-  </footer>
+	<footer>
+		Built by Justin Patrick Dias · <a href="https://github.com/JustinPatrickDias" target="_blank" rel="noopener">Browse all repositories on GitHub</a>
+	</footer>
 
 </body>
 </html>
