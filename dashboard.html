@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+
+    <style>
+        /* Minimal Tech & Fine-Art Inspired Color Architecture */
+        :root {
+            --bg-base: #0f1011;         /* Gallery-grade deep ash black */
+            --bg-surface: #161618;      /* Slate-toned component panels */
+            --border-muted: #2d2d2d;    /* Subdued technical lines */
+            --border-active: #444444;   /* Pronounced interactive limits */
+            --text-title: #ffffff;      /* Stark gallery-white titles */
+            --text-body: #9e9e9e;       /* Elegant architectural grey */
+            --text-meta: #666666;       /* Deeply desaturated secondary metadata */
+            
+            /* High-Contrast Technical Accent (Teal Blue) */
+            --accent-warm: #00a8b5;     
+            --accent-dim: rgba(0, 168, 181, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-body);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            padding-top: 80px; /* Space for the persistent navigation tray */
+            letter-spacing: -0.01em;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Monolithic Gallery Navigation Bar */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(18, 18, 18, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-muted);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 3rem;
+        }
+
+        .dashboard-logo {
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: var(--text-title);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Tiny technical structural indicator */
+        .dashboard-logo::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-warm);
+        }
+
+        /* Layout Framework Wrapper Component */
+        main {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 3rem;
+        }
+
+        /* Technical Jump-Link Directory Box Component */
+        .category-index-box {
+            background-color: var(--bg-base);
+            border: 1px solid var(--border-muted);
+            padding: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .index-box-header {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            color: var(--text-meta);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .index-box-header::before {
+            content: '//';
+            color: var(--accent-warm);
+        }
+
+        .index-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .index-jump-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-muted);
+            color: var(--text-body);
+            text-decoration: none;
+            padding: 0.85rem 1.2rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .index-jump-link:hover {
+            border-color: var(--accent-warm);
+            color: var(--text-title);
+            background-color: var(--bg-base);
+        }
+
+        .index-jump-link .index-arrow {
+            font-size: 0.8rem;
+            color: var(--text-meta);
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .index-jump-link:hover .index-arrow {
+            transform: translateY(2px);
+            color: var(--accent-warm);
+        }
+
+        /* Editorial Section Rows */
+        .category-section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 110px; /* Aligns content cleanly below navigation bar anchor points */
+        }
+
+        /* Fine-Art Minimal Heading Configuration */
+        .category-header-wrapper {
+            border-bottom: 1px solid var(--border-muted);
+            padding-bottom: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-title {
+            font-size: 1.25rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-title);
+        }
+
+        /* Adaptive Asymmetrical Grid Framework Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 1px; /* Emulates structural grid alignments */
+            background-color: var(--bg-base); /* Keeps empty tracking slots completely dark */
+            border: 1px solid var(--border-muted);
+            box-shadow: inset 0 0 0 1px var(--border-muted); /* Preserves outer perimeter lines */
+        }
+
+        /* Fine Art Technical Cards Deck Layout */
+        .card {
+            background-color: var(--bg-base); /* Empty/rest state rectangles remain completely dark */
+            text-decoration: none;
+            color: inherit;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 2rem; /* Increased layout spacing between structural content zones */
+            outline: 1px solid var(--border-muted); /* Forces borders only around real content boxes */
+            transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .card:hover {
+            background-color: var(--bg-surface); /* Lights up subtly into dark slate only on active hover states */
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .card-header-block {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: var(--text-title);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: color 0.2s ease;
+        }
+
+        /* Highlight text title using teal accent variable on interactive state focus */
+        .card:hover .card-title {
+            color: var(--accent-warm);
+        }
+
+        .card-favicon {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(60%);
+            transition: filter 0.2s ease;
+        }
+
+        .card:hover .card-favicon {
+            filter: grayscale(0%) opacity(100%);
+        }
+
+        .card-description {
+            font-size: 0.85rem;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--text-body);
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Clips line boundaries gracefully past 3 units */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-height: 4.8em; /* Ensures proportional layout balancing across uneven texts */
+        }
+
+        .card-footer-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            font-family: monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-meta);
+            padding-top: 0.5rem;
+            border-top: 1px dashed transparent;
+        }
+
+        .tech-arrow {
+            color: var(--text-meta);
+            font-size: 0.9rem;
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), color 0.2s ease;
+        }
+
+        .card:hover .tech-arrow {
+            transform: translateX(4px);
+            color: var(--accent-warm);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="dashboard-logo">dashboard</div>
+    </header>
+
+    <main id="matrix-display">
+        <div class="category-index-box" id="category-index-box">
+            <div class="index-grid" id="index-links-target"></div>
+        </div>
+        
+        <div id="sections-target"></div>
+    </main>
+
+    <script>
+        // Core Layout Generation Engine Process Loop
+        function buildDashboardMatrix(items) {
+            const sectionsTarget = document.getElementById('sections-target');
+            const indexLinksTarget = document.getElementById('index-links-target');
+            
+            // Isolate distinct alphabetically sorted categories
+            const individualCategories = [...new Set(items.map(item => item.category))].sort();
+
+            individualCategories.forEach((categoryName, index) => {
+                // Formatting automated safe URL hash strings
+                const sanitizedId = `section-${categoryName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+
+                // Append block index links to the category matrix panel
+                const indexLink = document.createElement('a');
+                indexLink.className = 'index-jump-link';
+                indexLink.href = `#${sanitizedId}`;
+                indexLink.innerHTML = `
+                    <span>${categoryName}</span>
+                    <span class="index-arrow">↓</span>
+                `;
+                indexLinksTarget.appendChild(indexLink);
+
+                // Filter down nodes belonging to loop scope and sort alphabetically
+                const categoryNodes = items
+                    .filter(item => item.category === categoryName)
+                    .sort((a, b) => a.name.localeCompare(b.name));
+
+                // Mount container layouts natively into DOM tree frames
+                const section = document.createElement('section');
+                section.className = 'category-section';
+                section.id = sanitizedId;
+                section.innerHTML = `
+                    <div class="category-header-wrapper">
+                        <h2 class="category-title">${categoryName}</h2>
+                    </div>
+                    <div class="grid" id="grid-target-${index}"></div>
+                `;
+                sectionsTarget.appendChild(section);
+                const gridTarget = document.getElementById(`grid-target-${index}`);
+
+                // Process single element items cards inside current grid collection array block
+                categoryNodes.forEach(item => {
+                    const cleanDomain = item.domain || item.url.replace(/https?:\/\/(www\.)?/, '').split('/')[0];
+                    const cardHTML = `
+                        <a href="${item.url}" target="_blank" class="card">
+                            <div class="card-body">
+                                <div class="card-header-block">
+                                    <h3 class="card-title">${item.name}</h3>
+                                    <img class="card-favicon" src="https://www.google.com/s2/favicons?sz=64&domain=${cleanDomain}" alt="" onerror="this.style.display='none'">
+                                </div>
+                                <p class="card-description">${item.description}</p>
+                            </div>
+                            <div class="card-footer-meta">
+                                <span>${cleanDomain}</span>
+                                <span class="tech-arrow">→</span>
+                            </div>
+                        </a>
+                    `;
+                    gridTarget.innerHTML += cardHTML;
+                });
+            });
+        }
+
+        // Asynchronous Pipeline Engine Fetch Loop
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('dashboard_links.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP network error loading pipeline dataset: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    buildDashboardMatrix(data); 
+                })
+                .catch(error => {
+                    console.error('Data pipeline connection failure:', error);
+                    const indexBox = document.getElementById('category-index-box');
+                    if(indexBox) indexBox.style.display = 'none';
+
+                    document.getElementById('matrix-display').innerHTML = `
+                        <div style="color: #00a8b5; font-family: 'Montserrat'; font-weight: 300; padding: 3rem; border: 1px solid #00a8b5; max-width: 650px; margin: 6rem auto; background: rgba(0, 168, 181, 0.02); letter-spacing: 0.05em;">
+                            <h3 style="font-weight: 500; text-transform: uppercase; margin-bottom: 1rem;">// SYSTEM_ERROR: DATA_OFFLINE</h3>
+                            <p style="font-size: 0.85rem; line-height: 1.7; color: #9e9e9e;">
+                                Details: ${error.message}<br><br>
+                                Architectural Note: Modern browser security sandboxes (CORS) restrict JavaScript <code>fetch()</code> requests when opening files locally using the <code>file://</code> protocol. To view this dashboard, launch a lightweight local hosting tool (such as VS Code Live Server, or running <code>python -m http.server</code> inside your directory).
+                            </p>
+                        </div>
+                    `;
+                });
+        });
+    </script>
+</body>
+</html>
