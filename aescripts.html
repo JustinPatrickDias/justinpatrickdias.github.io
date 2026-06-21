@@ -7,16 +7,16 @@
 	<meta name="description" content="Four utilities for organizing After Effects projects in bulk — frame rate changes, comp scaling, project cleanup, and renaming.">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght=0,400;1,400&display=swap" rel="stylesheet">
 	<style>
-		/* Global theme variables for consistent color palette and spacing */
+		/* Strict 3-Color Terminal Palette */
 		:root{
-			--bg: #18181B;        /* dark grey — page background */
-			--card: #23142d;      /* purple — card background */
-			--purple: #d2b7ff;   /* lighter lavender — bigger headers */
-			--gutter: 1.2rem;     /* horizontal page margin (header / main / footer) */
-			--space: 1.5rem;        /* vertical rhythm for main/footer, and card horizontal padding */
-			--card-pad-v: 1.5rem; /* vertical padding inside each card (top/bottom to title) */
+			--spaceIndigo: #1e1d33;          /* Color 1: Dark Charcoal */
+			--softPeriwinkle: #907ad6;
+			--mauve: #dabfff;        /* Color 3: Muted Purple-Grey */
+			--gutter: 3rem;          /* Increased padding on the left edge */         
+			--space: 2.5rem;         /* Increased vertical rhythm spacing between sections */          
+			--card-pad-v: 0.8rem;    /* Refined vertical internal section padding */     
 		}
 
 		*{ box-sizing: border-box; }
@@ -24,51 +24,50 @@
 		html, body{
 			margin: 0;
 			padding: 0;
-			background: var(--bg);
-			color: var(--purple);
+			background: var(--spaceIndigo);
+			color: var(--softPeriwinkle);
 			font-family: 'IBM Plex Mono', monospace;
 			line-height: 1.6;
-			font-weight: 400; /* Flattening font weight profile across site */
+			font-weight: 400; 
 		}
 
-		a{ color: var(--purple); text-decoration: none; }
-		a:hover{ opacity: 0.8; text-decoration: underline; }
+		a{ color: var(--softPeriwinkle); text-decoration: none; }
+		a:hover{ text-decoration: underline; }
 
 		/* Focus state for keyboard accessibility navigation */
 		:focus-visible{
-			outline: 2px solid var(--purple);
+			outline: 1px solid var(--mauve);
 			outline-offset: 3px;
 		}
 
-		h1, h2, h3{ color: var(--purple); margin: 0; font-weight: 400; }
+		h1, h2, h3{ color: var(--mauve); margin: 0; font-weight: 400; }
 		h2{ font-size: 1.3rem; }
-
-		strong {
-			font-weight: 400; /* Flattening native browser bolding */
+		
+		/* Retro terminal prompt symbol */
+		h2::before {
+			content: "> ";
+			color: var(--softPeriwinkle);
 		}
 
-		/* ---------- Sticky page header ---------- */
+		strong {
+			font-weight: 400; 
+		}
+
+		/* ---------- Page header ---------- */
 		header{
-			position: sticky;
-			top: 0;
-			z-index: 10;
-			background: var(--bg);
-			box-shadow: 0 4px 18px rgba(0,0,0,0.35);
-			padding: calc(var(--space) / 2) var(--gutter);
+			padding: 1.5rem var(--gutter); 
+			border-bottom: 1px dashed var(--softPeriwinkle);
 		}
 
 		header .card-head{
-			max-width: 760px;
-			margin: 0 auto;
-			/* padding-left/right ensures the header content lines up with grid cards below */
-			padding-left: calc(var(--gutter) + var(--space));
-			padding-right: calc(var(--gutter) + var(--space));
+			margin: 0;
+			padding: 0;
 		}
 
 		header h1{
 			font-size: 1.2rem;
 			font-weight: 400;
-			color: var(--purple);
+			color: var(--mauve);
 			text-transform: uppercase;
 		}
 
@@ -89,31 +88,34 @@
 		/* Metadata badges / utility tags within cards */
 		h3{
 			text-transform: uppercase;
-			letter-spacing: 0.12em;
+			letter-spacing: 0.15em;
 			font-size: 0.75rem;
 			font-weight: 400;
 			margin: 0;
+			color: var(--softPeriwinkle);
 		}
 
 		/* ---------- Layout ---------- */
 		main{
-			max-width: 760px;
-			margin: 0 auto;
-			padding: var(--space) var(--gutter);
+			max-width: 100%;
+			margin: 0;
+			padding: 0 var(--gutter);
 		}
 
 		section{
-			background: var(--card);
-			padding: var(--card-pad-v) var(--space);
-			margin-bottom: var(--space);
-            border-radius: 6px;
-			box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+			background: transparent;
+			padding: var(--space) 0;
+			border-bottom: 1px dashed var(--softPeriwinkle);
 		}
-		section:last-of-type{ margin-bottom: 0; }
+		section:last-of-type{ 
+			border-bottom: none; 
+			padding-bottom: 0; /* Drops the bloat below the installation steps */
+		}
 
 		/* ---------- Script entries ---------- */
 		.script p{
-			margin: 0 0 1.2rem 0;
+			margin: var(--card-pad-v) 0 1rem 0; /* Tightened bottom space to 1rem */
+			max-width: 100%; /* Spans the entire available width of the console */
 			font-size: 0.95rem;
 		}
 
@@ -124,39 +126,52 @@
 			gap: 1.2rem;
 		}
 
+		/* Button styled as a vintage inverted terminal block selection */
 		.btn{
 			display: inline-block;
-			background: var(--purple);
-			color: var(--bg);
+			background: transparent;
+			color: var(--mauve);
 			font-family: inherit;
 			font-weight: 400;
 			font-size: 0.9rem;
-			padding: 0.4rem 0.8rem;
-			border-radius: 4px;
-			border: 1px solid var(--purple);
+			padding: 0.3rem 0.75rem;
+			border-radius: 0px;
+			border: 1px solid var(--mauve);
 			cursor: pointer;
 		}
 
 		.btn:hover{
-			opacity: 0.85;
+			background: var(--mauve);
+			color: var(--spaceIndigo);
 			text-decoration: none;
 		}
 
 		/* ---------- Install ---------- */
-		ol.steps{ margin: 0; padding-left: 1.4rem; }
+		ol.steps{ margin: var(--card-pad-v) 0 0 0; padding-left: 1.2rem; }
 		ol.steps li{ margin-bottom: 1rem; font-size: 0.9rem; }
+		ol.steps li:last-child{ margin-bottom: 0; }
 
 		/* ---------- Footer ---------- */
 		footer{
-			text-align: center;
+			text-align: left;
+			margin: var(--space) 0 0 0;
 			padding: var(--space) var(--gutter);
 			font-size: 0.8rem;
+			border-top: 1px dashed var(--softPeriwinkle);
+			color: var(--softPeriwinkle);
+		}
+		
+		footer a {
+			color: var(--softPeriwinkle);
+			text-decoration: underline;
 		}
 
-		/* Mobile adjustments for standard viewports */
+		/* Mobile adjustments for responsive constraints */
 		@media (max-width: 600px){
-			section{ padding: 1.5rem; }
-			header .card-head{ padding-left: 1.5rem; padding-right: 1.5rem; }
+			:root {
+				--gutter: 1.5rem;
+				--space: 2rem;
+			}
 		}
 	</style>
 </head>
@@ -169,55 +184,46 @@
 	</header>
 
 	<main>
-
-		<section class="script">
-			<div class="card-head">
-				<h2>Bulk Frame Rate Changer</h2>
-				<h3>v1.0.3</h3>
-			</div>
-			<p>Change frame rate of all selected comps and footage in the project panel.</p>
-			<div class="cta-row">
-				<a class="btn" href="#" download>Download Script (.jsx)</a>
-				<a href="#" target="_blank" rel="noopener">View source on GitHub →</a>
-			</div>
-		</section>
-
-		<section class="script">
-			<div class="card-head">
-				<h2>Bulk Comp Scaler</h2>
-				<h3>Version —</h3>
-			</div>
-			<p>After Effects Native Scale Composition Script, but dockable and can apply to all selected comps in project panel.</p>
-			<div class="cta-row">
-				<a class="btn" href="#" download>Download Script (.jsx)</a>
-				<a href="#" target="_blank" rel="noopener">View source on GitHub →</a>
-			</div>
-		</section>
-
-		<section class="script">
-			<div class="card-head">
-				<h2>Aep Cleaner</h2>
-				<h3>v1.0.0</h3>
-			</div>
-			<p>A series of functions to sort project files</p>
-			<div class="cta-row">
-				<a class="btn" href="#" download>Download Script (.jsx)</a>
-				<a href="#" target="_blank" rel="noopener">View source on GitHub →</a>
-			</div>
-		</section>
-
-		<section class="script">
+        <!-- Bulk Comp Renamer -->
+        <section class="script">
 			<div class="card-head">
 				<h2>Bulk Comp Renamer</h2>
 				<h3>v1.0.3</h3>
 			</div>
-			<p>Rename every selected item in your Project panel in one pass. Find &amp; replace text, add a prefix or suffix, or version up everything at once.</p>
+			<p>Rename selected items in the project panel. Find &amp; replace text, add a prefix or suffix, or version up.</p>
 			<div class="cta-row">
-				<a class="btn" href="https://raw.githubusercontent.com/JustinPatrickDias/Bulk_Renamer/main/Bulk%20Comp%20Renamer%20v1.0.3.jsx" download="Bulk Comp Renamer v1.0.3.jsx">Download Script (.jsx)</a>
-				<a href="https://github.com/JustinPatrickDias/Bulk_Renamer" target="_blank" rel="noopener">View source on GitHub →</a>
+				<a class="btn" href="https://raw.githubusercontent.com/JustinPatrickDias/BulkRenamer/main/Bulk%20Comp%20Renamer%20v1.0.3.jsx" download="Bulk Comp Renamer v1.0.3.jsx">Download Script (.jsx)</a>
+				<a href="https://github.com/JustinPatrickDias/BulkRenamer" target="_blank" rel="noopener">View source on GitHub →</a>
 			</div>
 		</section>
 
+        <!-- Bulk Comp Scaler -->
+		<section class="script">
+			<div class="card-head">
+				<h2>Bulk Comp Scaler</h2>
+				<h3>v1.0.0</h3>
+			</div>
+			<p>Built from the native Scale Composition script, a dockable panel that can scale all selected comps at once.</p>
+			<div class="cta-row">
+				<a class="btn" href="https://github.com/JustinPatrickDias/BulkCompScaler/blob/main/Bulk%20Comp%20Scaler%20v1.0.0.jsx" download>Download Script (.jsx)</a>
+				<a href="https://github.com/JustinPatrickDias/BulkCompScaler" target="_blank" rel="noopener">View source on GitHub →</a>
+			</div>
+		</section>
+
+        <!-- Bulk Frame Rate Changer -->
+		<section class="script">
+			<div class="card-head">
+				<h2>Bulk Frame Rate Changer</h2>
+				<h3>v1.0.1</h3>
+			</div>
+			<p>Change frame rate of all selected comps and footage in the project panel.</p>
+			<div class="cta-row">
+				<a class="btn" href="https://github.com/JustinPatrickDias/BulkFrameRateChanger/blob/main/Bulk%20Frame%20Rate%20Changer%20v1.0.1.jsx" download>Download Script (.jsx)</a>
+				<a href="https://github.com/JustinPatrickDias/BulkFrameRateChanger" target="_blank" rel="noopener">View source on GitHub →</a>
+			</div>
+		</section>
+
+        <!-- Installation Instructions -->
 		<section class="install">
 			<div class="card-head">
 				<h2>Installation</h2>
@@ -226,16 +232,15 @@
 			<ol class="steps">
 				<li>Download the .jsx file</li>
 				<li>In After Effects, go to <strong>File → Scripts → Install ScriptUI Panel...</strong></li>
-				<li>Select the .jsx file.</li>
-				<li>After Effects will ask to restart — go ahead and restart it.</li>
-				<li>Find it under <strong>Window →</strong> followed by the script's filename.</li>
+				<li>Select the .jsx file</li>
+				<li>Restart After Effects</li>
+				<li>Find it under <strong>Window →</strong> followed by the script's filename</li>
 			</ol>
 		</section>
-
 	</main>
 
 	<footer>
-		Built by Justin Patrick Dias · <a href="https://github.com/JustinPatrickDias" target="_blank" rel="noopener">Browse all repositories on GitHub</a>
+		Vibe-coded by Justin Patrick Dias · <a href="https://github.com/JustinPatrickDias" target="_blank" rel="noopener">Browse all repo's on GitHub</a>
 	</footer>
 
 </body>
