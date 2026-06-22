@@ -774,11 +774,7 @@
     "url": "https://thephotographicjournal.com",
     "category": "Photography"
   },
-  {
-    "name": "Unsplash",
-    "url": "https://unsplash.com",
-    "category": "Photography"
-  },
+
   {
     "name": "VSCO",
     "url": "https://vsco.co",
@@ -823,5 +819,25 @@
     "name": "Visual Journal",
     "url": "https://visualjournal.it",
     "category": "Print Design"
+  },
+  {
+    "name": "Unsplash",
+    "url": "https://unsplash.com",
+    "category": "Free Stock"
+  },
+  {
+    "name": "Pexels",
+    "url": "https://pexels.com",
+    "category": "Free Stock"
+  },
+  {
+    "name": "Pixabay",
+    "url": "https://pixabay.com",
+    "category": "Free Stock"
+  },
+  {
+    "name": "Freesound.org",
+    "url": "https://freesound.org",
+    "category": "Free Stock"
   }
 ]
